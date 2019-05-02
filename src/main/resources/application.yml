@@ -1,0 +1,36 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 199747
+    url: jdbc:mysql://127.0.0.1:3306/read_note?serverTimezone=GMT&useUnicode=true&characterEncoding=utf8
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initial-size: 5
+      max-active: 20
+      min-idle: 5
+      max-wait: 60000
+      time-between-eviction-runs-millis: 300000
+      validation-query: SELECT 1 FROM DUAL
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      pool-prepared-statements: true
+      filters: stat,wall,log4j
+      max-pool-prepared-statement-per-connection-size: 20
+      use-global-data-source-stat: true
+      connect-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+  redis:
+    host: 127.0.0.1
+    port: 6379
+
+server:
+  port: 7002
+
+baidu-ai:
+  api-key: uyHQFOvFi7j6cVAGB7v2F6ex
+  secret-key: mzMyqztIwyMs9mTUYGEz5YPgygOEanAh
+
+
+
+
