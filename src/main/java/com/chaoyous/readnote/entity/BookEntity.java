@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 /**
  * Demo class
  *
@@ -17,7 +19,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName(value = "book")
-public class BookEntity {
+public class BookEntity implements Serializable {
     @TableId(type = IdType.UUID)
     private String bookId;
     private String isbn;

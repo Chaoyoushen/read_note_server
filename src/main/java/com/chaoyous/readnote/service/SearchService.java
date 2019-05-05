@@ -1,6 +1,7 @@
 package com.chaoyous.readnote.service;
 
 import com.chaoyous.readnote.view.SearchBookView;
+import org.springframework.stereotype.Service;
 
 /**
  * Demo class
