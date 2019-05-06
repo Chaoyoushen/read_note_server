@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Demo class
@@ -28,5 +29,6 @@ public class NoteEntity implements Serializable {
     String note;
     String page;
     String bookName;
+    Date createDate;
 
 }
