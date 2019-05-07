@@ -4,11 +4,10 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * Demo class
@@ -29,6 +28,10 @@ public class NoteEntity implements Serializable {
     String note;
     String page;
     String bookName;
-    Date createDate;
+    String createDate;
+    Integer shareNum;
+    Integer starNum;
+    Integer discussNum;
+    Integer readNum;
 
 }

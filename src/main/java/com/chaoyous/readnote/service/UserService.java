@@ -16,4 +16,6 @@ public interface UserService extends IService<UserEntity> {
     LoginView login(UserValidateModel model);
 
     LoginView register(UserValidateModel model);
+
+    void logout(String userId);
 }

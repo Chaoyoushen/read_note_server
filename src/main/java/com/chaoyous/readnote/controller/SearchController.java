@@ -1,9 +1,11 @@
 package com.chaoyous.readnote.controller;
 
+import com.chaoyous.readnote.annotation.Security;
 import com.chaoyous.readnote.entity.ResultEntity;
 import com.chaoyous.readnote.service.SearchService;
 import com.chaoyous.readnote.utils.ResultBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,7 +22,7 @@ public class SearchController {
     @Autowired
     SearchService searchService;
     @RequestMapping(value = "/isbn")
-    ResultEntity queryBookByISBN(String isbn){
+    ResultEntity queryBookByISBN(@Security String userId,String isbn){
         return ResultBuilder.success("query success",searchService.searchByISBN(isbn));
     }
 }

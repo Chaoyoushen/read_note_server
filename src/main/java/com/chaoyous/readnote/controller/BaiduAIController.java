@@ -1,5 +1,6 @@
 package com.chaoyous.readnote.controller;
 
+import com.chaoyous.readnote.annotation.Security;
 import com.chaoyous.readnote.entity.BaiduAIEntity;
 import com.chaoyous.readnote.entity.ResultEntity;
 import com.chaoyous.readnote.service.BaiduAIService;
@@ -32,7 +33,7 @@ public class BaiduAIController {
     private BaiduAIService baiduAIService;
 
     @RequestMapping("/token")
-    public ResultEntity getToken(){
+    public ResultEntity getToken(@Security String userId){
         return ResultBuilder.success("获取成功",baiduAIService.getToken());
     }
 }

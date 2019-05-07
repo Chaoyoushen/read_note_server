@@ -1,5 +1,6 @@
 package com.chaoyous.readnote.controller;
 
+import com.chaoyous.readnote.annotation.Security;
 import com.chaoyous.readnote.entity.NoteEntity;
 import com.chaoyous.readnote.entity.ResultEntity;
 import com.chaoyous.readnote.model.NoteModel;
@@ -23,7 +24,7 @@ public class NoteController {
     @Autowired
     NoteService noteService;
     @RequestMapping(value = "/save")
-    public ResultEntity saveNote(@RequestBody NoteEntity note){
+    public ResultEntity saveNote(@RequestBody NoteEntity note,@Security String userId){
         noteService.saveNote(note);
 
         return ResultBuilder.success("ok",'1');

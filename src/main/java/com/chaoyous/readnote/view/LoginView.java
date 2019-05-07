@@ -16,4 +16,6 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class LoginView implements Serializable {
     private String token;
+    private String userId;
+    private String nickName;
 }

@@ -1,7 +1,11 @@
 package com.chaoyous.readnote.service;
 
 import com.chaoyous.readnote.entity.NoteEntity;
+import com.chaoyous.readnote.view.ExploreListView;
+import com.chaoyous.readnote.view.ExploreView;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * Demo class
@@ -11,4 +15,12 @@ import org.springframework.stereotype.Service;
  */
 public interface NoteService {
     void saveNote(NoteEntity note);
+
+    /***
+     *
+     * @param num 需要查询的条数
+     * @param current 当前位置
+     * @return 返回结果集
+     */
+    ExploreListView getExploreView(Integer num, Integer current);
 }

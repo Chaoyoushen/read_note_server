@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.chaoyous.readnote.entity.UserEntity;
 import com.chaoyous.readnote.exception.LoginException;
+import com.chaoyous.readnote.exception.RedisException;
 import com.chaoyous.readnote.exception.RegisterException;
 import com.chaoyous.readnote.mapper.UserMapper;
 import com.chaoyous.readnote.model.UserValidateModel;
@@ -14,6 +15,7 @@ import com.chaoyous.readnote.view.LoginView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Random;
 
 
 /**
@@ -36,7 +38,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         if(null != user){
             String token = CommonUtils.tokenMaker(user.getId());
             RedisUtil.set(user.getId(),token,864000);
-            return new LoginView(token);
+            return new LoginView(token,user.getId(),user.getNickname());
         }
         throw new LoginException();
     }
@@ -47,6 +49,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         UserEntity user = new UserEntity();
         user.setPassword(CommonUtils.getMD5(model.getPassword()));
         user.setPhone(model.getPhone());
+        user.setNickname("书友" + CommonUtils.getRandomString(5));
+        user.setImgPath("default_img");
         user.setId(CommonUtils.getUUID());
         try {
             userMapper.insert(user);
@@ -55,8 +59,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
             throw  new RegisterException();
         }
        RedisUtil.set(user.getId(),token,864000);
-        return new LoginView(token);
+        return new LoginView(token,user.getId(),user.getNickname());
 
     }
+
+    @Override
+    public void logout(String userId) {
+        try{
+            RedisUtil.del(userId);
+        }catch (Exception e){
+            throw new RedisException();
+        }
+    }
+
 
 }

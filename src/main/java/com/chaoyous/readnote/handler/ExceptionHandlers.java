@@ -25,7 +25,7 @@ import java.net.BindException;
 public class ExceptionHandlers {
     @ExceptionHandler(CustomException.class)
     public ResultEntity customException(CustomException e) {
-        return ResultBuilder.fail(e.getMessage(),e.getCode());
+        return ResultBuilder.result(501,e.getMessage(),e.getCode());
     }
 
     @ExceptionHandler(Exception.class)

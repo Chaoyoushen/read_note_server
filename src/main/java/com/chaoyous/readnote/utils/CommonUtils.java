@@ -14,6 +14,7 @@ import javax.annotation.Resource;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Random;
 import java.util.UUID;
 
 /**
@@ -61,10 +62,22 @@ public class CommonUtils {
             DecodedJWT jwt = verifier.verify(token);
             String userId = jwt.getClaim("user_id").asString();
             if(RedisUtil.hasKey(userId)){
+                RedisUtil.expire(userId,864000);
                 return userId;
             }else {
                 throw new VerifyTokenErrorException();
             }
+    }
+
+    public static String getRandomString(int length) {
+        String str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        Random random = new Random();
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < length; i++) {
+            int number = random.nextInt(str.length());
+            sb.append(str.charAt(number));
+        }
+        return sb.toString();
     }
 
 }

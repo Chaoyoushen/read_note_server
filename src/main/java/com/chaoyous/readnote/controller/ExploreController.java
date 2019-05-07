@@ -1,6 +1,10 @@
 package com.chaoyous.readnote.controller;
 
+import com.chaoyous.readnote.annotation.Security;
 import com.chaoyous.readnote.entity.ResultEntity;
+import com.chaoyous.readnote.service.NoteService;
+import com.chaoyous.readnote.utils.ResultBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,8 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/explore")
 public class ExploreController {
+
+    @Autowired
+    NoteService noteService;
+
     @RequestMapping(value = "/get")
-    ResultEntity getNote(Integer num){
-        return null;
+    ResultEntity getNote(@Security String userId,Integer num,Integer current){
+        return ResultBuilder.success("",noteService.getExploreView(num,current));
     }
 }

@@ -6,6 +6,7 @@ import com.chaoyous.readnote.model.UserValidateModel;
 import com.chaoyous.readnote.service.UserService;
 import com.chaoyous.readnote.utils.ResultBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,19 +25,24 @@ public class UserController {
     UserService userService;
 
     @RequestMapping("/login")
-    public ResultEntity login(UserValidateModel model) {
+    public ResultEntity login(@RequestBody UserValidateModel model) {
         return ResultBuilder.success("login success",userService.login(model));
     }
 
     @RequestMapping("/register")
-    public ResultEntity register(UserValidateModel model) {
+    public ResultEntity register(@RequestBody UserValidateModel model) {
         return ResultBuilder.success("register success", userService.register(model));
+    }
+
+    @RequestMapping("/logout")
+    public ResultEntity logout(@Security String userId){
+        userService.logout(userId);
+        return ResultBuilder.success("ok",null);
     }
 
     @RequestMapping("/check")
     public ResultEntity check(@Security String userId){
-        System.out.print(userId);
-        return ResultBuilder.success("check success",null);
+        return ResultBuilder.success("ok",null);
     }
 
 }

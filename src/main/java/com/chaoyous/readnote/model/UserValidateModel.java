@@ -12,6 +12,4 @@ import lombok.Data;
 public class UserValidateModel {
     private String phone;
     private String password;
-    private String token;
-    private String nickName;
 }
