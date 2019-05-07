@@ -3,7 +3,7 @@ package com.chaoyous.readnote.controller;
 import com.chaoyous.readnote.annotation.Security;
 import com.chaoyous.readnote.entity.NoteEntity;
 import com.chaoyous.readnote.entity.ResultEntity;
-import com.chaoyous.readnote.model.NoteModel;
+import com.chaoyous.readnote.model.DiscussModel;
 import com.chaoyous.readnote.service.NoteService;
 import com.chaoyous.readnote.utils.ResultBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,5 +28,18 @@ public class NoteController {
         noteService.saveNote(note);
 
         return ResultBuilder.success("ok",'1');
+    }
+    @RequestMapping(value = "/query/detail")
+    public ResultEntity queryNoteDetail(@Security String userId,String noteId){
+        return ResultBuilder.success("ok",noteService.getNoteDetail(noteId));
+    }
+
+    @RequestMapping(value = "/discuss/add")
+    public ResultEntity makeDiscuss(@Security String userId , @RequestBody DiscussModel model){
+        if(noteService.makeDiscuss(userId,model)){
+            return ResultBuilder.success("ok",null);
+        }else{
+            return ResultBuilder.fail("error",null);
+        }
     }
 }

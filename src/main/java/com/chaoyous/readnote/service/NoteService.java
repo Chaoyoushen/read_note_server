@@ -1,8 +1,10 @@
 package com.chaoyous.readnote.service;
 
 import com.chaoyous.readnote.entity.NoteEntity;
+import com.chaoyous.readnote.model.DiscussModel;
 import com.chaoyous.readnote.view.ExploreListView;
 import com.chaoyous.readnote.view.ExploreView;
+import com.chaoyous.readnote.view.NoteDetailView;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,4 +25,8 @@ public interface NoteService {
      * @return 返回结果集
      */
     ExploreListView getExploreView(Integer num, Integer current);
+
+    NoteDetailView getNoteDetail(String noteId);
+
+    boolean makeDiscuss(String userId, DiscussModel model);
 }
