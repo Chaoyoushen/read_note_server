@@ -1,33 +1,28 @@
 package com.chaoyous.readnote.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
+import java.lang.reflect.Type;
 
 /**
  * Demo class
  *
  * @author zcj
- * @date 2019/5/7
+ * @date 2019/5/8
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName(value = "discuss")
-public class DiscussEntity implements Serializable {
-    @TableId(type = IdType.UUID)
+@TableName(value = "discuss_like")
+public class LikeDiscussEntity {
     private String discussId;
     private String userId;
-    private String discuss;
-    private String createDate;
-    private Integer likeNum;
-    private String noteId;
-
-
+    @TableId(type = IdType.UUID)
+    private String id;
+    private Integer liked;
 }

@@ -26,4 +26,5 @@ public class ExploreView {
     private Integer sharedNum;
     private String note;
     private String page;
+    private Integer likeFlag;
 }

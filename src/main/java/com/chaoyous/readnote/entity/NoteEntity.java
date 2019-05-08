@@ -1,6 +1,7 @@
 package com.chaoyous.readnote.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
@@ -29,9 +30,10 @@ public class NoteEntity implements Serializable {
     String page;
     String bookName;
     String createDate;
-    Integer shareNum;
-    Integer starNum;
+    Integer sharedNum;
+    Integer likeNum;
     Integer discussNum;
     Integer readNum;
+
 
 }

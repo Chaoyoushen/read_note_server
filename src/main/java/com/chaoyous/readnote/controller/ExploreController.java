@@ -23,6 +23,6 @@ public class ExploreController {
 
     @RequestMapping(value = "/get")
     ResultEntity getNote(@Security String userId,Integer num,Integer current){
-        return ResultBuilder.success("",noteService.getExploreView(num,current));
+        return ResultBuilder.success("",noteService.getExploreView(num,current,userId));
     }
 }

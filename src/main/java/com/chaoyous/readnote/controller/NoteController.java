@@ -30,8 +30,13 @@ public class NoteController {
         return ResultBuilder.success("ok",'1');
     }
     @RequestMapping(value = "/query/detail")
-    public ResultEntity queryNoteDetail(@Security String userId,String noteId){
-        return ResultBuilder.success("ok",noteService.getNoteDetail(noteId));
+    public ResultEntity queryNoteDetail(@Security String userId,String noteId,Integer type){
+        if(type.equals(0)){
+            return ResultBuilder.success("ok",noteService.getNoteDetail(noteId));
+        }else{
+            return ResultBuilder.success("ok",noteService.getDiscusses(noteId));
+        }
+
     }
 
     @RequestMapping(value = "/discuss/add")
@@ -40,6 +45,23 @@ public class NoteController {
             return ResultBuilder.success("ok",null);
         }else{
             return ResultBuilder.fail("error",null);
+        }
+    }
+    @RequestMapping(value = "/manner")
+    public ResultEntity mannerNote(@Security String userId,String noteId){
+        if(noteService.mannerNote(userId,noteId)){
+            return ResultBuilder.success("ok",null);
+        }else {
+            return ResultBuilder.fail("fail",null);
+        }
+    }
+
+    @RequestMapping(value = "/discuss/manner")
+    public ResultEntity mannerDiscuss(@Security String userId,String discussId){
+        if(noteService.mannerDiscuss(userId,discussId)){
+            return ResultBuilder.success("ok",null);
+        }else {
+            return ResultBuilder.fail("fail",null);
         }
     }
 }

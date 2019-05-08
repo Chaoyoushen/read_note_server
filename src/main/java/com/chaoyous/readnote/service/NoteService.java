@@ -24,9 +24,15 @@ public interface NoteService {
      * @param current 当前位置
      * @return 返回结果集
      */
-    ExploreListView getExploreView(Integer num, Integer current);
+    ExploreListView getExploreView(Integer num, Integer current,String userId);
 
     NoteDetailView getNoteDetail(String noteId);
 
     boolean makeDiscuss(String userId, DiscussModel model);
+
+    NoteDetailView getDiscusses(String noteId);
+
+    boolean mannerNote(String userId,String noteId);
+
+    boolean mannerDiscuss(String userId,String discussId);
 }
