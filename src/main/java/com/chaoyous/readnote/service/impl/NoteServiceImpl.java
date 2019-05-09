@@ -47,8 +47,8 @@ public class NoteServiceImpl implements NoteService {
         try {
             note.setDiscussNum(0);
             note.setReadNum(0);
-            note.setShareNum(0);
-            note.setStarNum(0);
+            note.setSharedNum(0);
+            note.setLikeNum(0);
             noteMapper.insert(note);
         }catch (Exception e){
             throw new InsertNoteException();
