@@ -7,6 +7,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.chaoyous.readnote.entity.BookEntity;
 import com.chaoyous.readnote.entity.SearchBookByISBNFromNetEntity;
 import com.chaoyous.readnote.exception.BookNotFoundException;
+import com.chaoyous.readnote.exception.MySqlException;
+import com.chaoyous.readnote.exception.NoSuchBookException;
 import com.chaoyous.readnote.mapper.BookMapper;
 import com.chaoyous.readnote.service.SearchService;
 import com.chaoyous.readnote.utils.NetUtil;
@@ -14,6 +16,9 @@ import com.chaoyous.readnote.view.SearchBookView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -47,6 +52,39 @@ public class SearchServiceImpl implements SearchService {
             tmp = setBookEntity(book);
             bookMapper.insert(tmp);
             return new SearchBookView(tmp);
+        }
+    }
+
+    @Override
+    public SearchBookView searchBookByBookId(String bookId) {
+        try {
+            QueryWrapper<BookEntity> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("book_id", bookId);
+            BookEntity tmp = bookMapper.selectOne(queryWrapper);
+            if(tmp != null){
+                return new SearchBookView(tmp);
+            }else{
+                throw new NoSuchBookException();
+            }
+        }catch (Exception e){
+            throw new MySqlException();
+        }
+    }
+
+    @Override
+    public List<SearchBookView> searchBookByBookName(String bookName) {
+        try {
+            QueryWrapper<BookEntity> queryWrapper = new QueryWrapper<>();
+            queryWrapper.like("book_name",bookName);
+            List<BookEntity> tmp = bookMapper.selectList(queryWrapper);
+            if(tmp == null){
+                throw new NoSuchBookException();
+            }
+            List<SearchBookView> view = new ArrayList<>();
+            tmp.forEach((entity) -> view.add(new SearchBookView(entity)));
+            return view;
+        }catch (Exception e){
+            throw new MySqlException();
         }
     }
 

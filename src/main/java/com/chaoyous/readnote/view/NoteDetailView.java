@@ -16,5 +16,5 @@ import java.util.List;
 @Data
 public class NoteDetailView {
     private ExploreView exploreModel;
-    private List<DiscussEntity> discussList;
+    private List<DiscussView> discussList;
 }

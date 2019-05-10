@@ -25,4 +25,14 @@ public class SearchController {
     ResultEntity queryBookByISBN(@Security String userId,String isbn){
         return ResultBuilder.success("query success",searchService.searchByISBN(isbn));
     }
+
+    @RequestMapping(value = "/bookId")
+    ResultEntity queryBookByBookId(@Security String userId,String bookId){
+        return ResultBuilder.success("query success",searchService.searchBookByBookId(bookId));
+    }
+
+    @RequestMapping(value = "/bookName")
+    ResultEntity queryBookByBookName(@Security String userId,String bookName){
+        return ResultBuilder.success("query success",searchService.searchBookByBookName(bookName));
+    }
 }

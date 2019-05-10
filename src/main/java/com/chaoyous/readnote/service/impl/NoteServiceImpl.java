@@ -9,6 +9,7 @@ import com.chaoyous.readnote.exception.MySqlException;
 import com.chaoyous.readnote.mapper.*;
 import com.chaoyous.readnote.model.DiscussModel;
 import com.chaoyous.readnote.service.NoteService;
+import com.chaoyous.readnote.view.DiscussView;
 import com.chaoyous.readnote.view.ExploreListView;
 import com.chaoyous.readnote.view.ExploreView;
 import com.chaoyous.readnote.view.NoteDetailView;
@@ -98,9 +99,7 @@ public class NoteServiceImpl implements NoteService {
     @Override
     public NoteDetailView getDiscusses(String noteId) {
         try {
-            QueryWrapper<DiscussEntity> wrapper = new QueryWrapper<>();
-            wrapper.eq("note_id",noteId).orderByDesc("create_date");
-            List<DiscussEntity> list = discussMapper.selectList(wrapper);
+            List<DiscussView> list = discussMapper.queryDiscussList(noteId);
             return new NoteDetailView(null,list);
         }catch (Exception e){
             throw new MySqlException();
