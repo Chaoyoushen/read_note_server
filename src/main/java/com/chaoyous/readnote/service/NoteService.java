@@ -18,12 +18,6 @@ import java.util.List;
 public interface NoteService {
     void saveNote(NoteEntity note);
 
-    /***
-     *
-     * @param num 需要查询的条数
-     * @param current 当前位置
-     * @return 返回结果集
-     */
     ExploreListView getExploreView(Integer num, Integer current,String userId);
 
     NoteDetailView getNoteDetail(String noteId);
@@ -35,4 +29,6 @@ public interface NoteService {
     boolean mannerNote(String userId,String noteId);
 
     boolean mannerDiscuss(String userId,String discussId);
+
+    boolean deleteNote(String noteId);
 }

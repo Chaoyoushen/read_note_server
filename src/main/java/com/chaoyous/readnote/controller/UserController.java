@@ -3,6 +3,7 @@ package com.chaoyous.readnote.controller;
 import com.chaoyous.readnote.annotation.Security;
 import com.chaoyous.readnote.entity.ResultEntity;
 import com.chaoyous.readnote.model.UserValidateModel;
+import com.chaoyous.readnote.service.NoteService;
 import com.chaoyous.readnote.service.UserService;
 import com.chaoyous.readnote.utils.ResultBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    NoteService noteService;
+
     @RequestMapping("/login")
     public ResultEntity login(@RequestBody UserValidateModel model) {
         return ResultBuilder.success("login success",userService.login(model));
@@ -42,6 +46,32 @@ public class UserController {
 
     @RequestMapping("/check")
     public ResultEntity check(@Security String userId){
+        return ResultBuilder.success("ok",null);
+    }
+
+    @RequestMapping("/changeName")
+    public ResultEntity changeName(@Security String userId,String newName){
+        userService.changeName(userId,newName);
+        return ResultBuilder.success("ok",null);
+    }
+
+    @RequestMapping("/collectionOverview")
+    public ResultEntity getCollectionOverview(@Security String userId){
+        return ResultBuilder.success("ok",noteService.getExploreView(3,0,userId));
+    }
+
+    @RequestMapping("/collectionDetail")
+    public ResultEntity getCollectionDetail(@Security String userId){
+        return ResultBuilder.success("ok",noteService.getExploreView(3,0,userId));
+    }
+
+    @RequestMapping("/noteOverview")
+    public ResultEntity getNoteOverview(@Security String userId){
+        return ResultBuilder.success("ok",null);
+    }
+
+    @RequestMapping("/noteDetail")
+    public ResultEntity getNoteDetail(@Security String userId){
         return ResultBuilder.success("ok",null);
     }
 

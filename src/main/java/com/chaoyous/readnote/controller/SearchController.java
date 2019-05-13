@@ -35,4 +35,5 @@ public class SearchController {
     ResultEntity queryBookByBookName(@Security String userId,String bookName){
         return ResultBuilder.success("query success",searchService.searchBookByBookName(bookName));
     }
+
 }

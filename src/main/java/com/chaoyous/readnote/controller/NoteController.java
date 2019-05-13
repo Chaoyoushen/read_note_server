@@ -64,4 +64,13 @@ public class NoteController {
             return ResultBuilder.fail("fail",null);
         }
     }
+
+    @RequestMapping(value = "/delete")
+    public ResultEntity delNote(@Security String userId,String noteId){
+        if(noteService.deleteNote(noteId)){
+            return ResultBuilder.success("ok",null);
+        }else {
+            return ResultBuilder.fail("fail",null);
+        }
+    }
 }

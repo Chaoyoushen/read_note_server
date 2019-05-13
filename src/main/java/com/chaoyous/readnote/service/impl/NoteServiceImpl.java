@@ -50,6 +50,7 @@ public class NoteServiceImpl implements NoteService {
             note.setReadNum(0);
             note.setSharedNum(0);
             note.setLikeNum(0);
+            note.setDelFlag(0);
             noteMapper.insert(note);
         }catch (Exception e){
             throw new InsertNoteException();
@@ -158,6 +159,19 @@ public class NoteServiceImpl implements NoteService {
                     likeDiscussMapper.updateById(model);
                 }
             }
+            return true;
+        }catch (Exception e){
+            throw new MySqlException();
+        }
+    }
+
+    @Override
+    public boolean deleteNote(String noteId) {
+        try{
+            NoteEntity model = new NoteEntity();
+            model.setNoteId(noteId);
+            model.setDelFlag(1);
+            noteMapper.updateById(model);
             return true;
         }catch (Exception e){
             throw new MySqlException();

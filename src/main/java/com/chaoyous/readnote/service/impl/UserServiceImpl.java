@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.chaoyous.readnote.entity.UserEntity;
 import com.chaoyous.readnote.exception.LoginException;
+import com.chaoyous.readnote.exception.MySqlException;
 import com.chaoyous.readnote.exception.RedisException;
 import com.chaoyous.readnote.exception.RegisterException;
 import com.chaoyous.readnote.mapper.UserMapper;
@@ -69,6 +70,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
             RedisUtil.del(userId);
         }catch (Exception e){
             throw new RedisException();
+        }
+    }
+
+    @Override
+    public void changeName(String userId, String newName) {
+        try{
+            UserEntity user = new UserEntity();
+            user.setId(userId);
+            user.setNickname(newName);
+            userMapper.updateById(user);
+        }catch (Exception e){
+            throw new MySqlException();
         }
     }
 

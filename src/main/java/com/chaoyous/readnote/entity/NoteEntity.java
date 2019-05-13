@@ -34,6 +34,7 @@ public class NoteEntity implements Serializable {
     Integer likeNum;
     Integer discussNum;
     Integer readNum;
+    Integer delFlag;
 
 
 }

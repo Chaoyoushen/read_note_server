@@ -49,13 +49,13 @@ public interface NoteMapper extends BaseMapper<NoteEntity> {
             "t3.liked as flag "+
             "from note t1 LEFT JOIN user t2 on t1.user_id = t2.id "+
             "LEFT JOIN (select * from note_like where user_id =#{userId})as t3 "+
-            "ON t1.note_id = t3.note_id order by createDate limit #{start},#{num}")
+            "ON t1.note_id = t3.note_id where t1.flag=0 order by createDate limit #{start},#{num}")
     List<ExploreView> selectExploreList(@Param("start") Integer start,@Param("num")Integer num,@Param("userId")String userId);
 
     @Select("select t1.user_id as userId,t1.note_id as noteId,t1.book_id as bookId,t1.digest as digest," +
             "t1.create_date as createDate,t1.note as note,t1.page as page,t1.book_name as bookName," +
             "t1.read_num as readNum,t1.like_num as likeNum,t1.shared_num as sharedNum,t1.discuss_num as discussNum,t2.nickname as nickname," +
-            "t2.img_path as imgPath,0 as likeFlag from note t1 LEFT JOIN user t2 on t1.user_id=t2.id where t1.note_id=#{noteId}")
+            "t2.img_path as imgPath,0 as likeFlag from note t1 LEFT JOIN user t2 on t1.user_id=t2.id where t1.flag=0 and t1.note_id=#{noteId}")
     ExploreView getNoteDetail(@Param("noteId") String noteId);
 
     @Update("update note set read_num=read_num+1 where note_id=#{noteId}")

@@ -3,6 +3,7 @@ package com.chaoyous.readnote.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.chaoyous.readnote.entity.UserEntity;
 import com.chaoyous.readnote.model.UserValidateModel;
+import com.chaoyous.readnote.view.ExploreListView;
 import com.chaoyous.readnote.view.LoginView;
 import org.springframework.stereotype.Service;
 
@@ -18,4 +19,6 @@ public interface UserService extends IService<UserEntity> {
     LoginView register(UserValidateModel model);
 
     void logout(String userId);
+    void changeName(String userId,String newName);
+
 }
