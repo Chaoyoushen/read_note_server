@@ -19,8 +19,8 @@ import java.util.List;
 @Mapper
 public interface DiscussMapper extends BaseMapper<DiscussEntity>{
 
-    @Update("update discuss set like_num=like_num+#{num} where note_id=#{discussId}")
-    void mannerNoteLikeNum(@Param("discussId")String discussId, @Param("num")Integer num);
+    @Update("update discuss set like_num=like_num+#{num} where discuss_id=#{discussId}")
+    void mannerDiscussLikeNum(@Param("discussId")String discussId, @Param("num")Integer num);
     @Select("select t1.*,t2.img_path,t2.nickname from discuss t1 LEFT JOIN user t2 on t1.user_id = t2.id where t1.note_id=#{noteId}")
     List<DiscussView> queryDiscussList(@Param("noteId")String noteId);
 }

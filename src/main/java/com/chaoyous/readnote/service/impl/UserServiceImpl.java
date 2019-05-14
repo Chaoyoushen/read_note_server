@@ -2,11 +2,14 @@ package com.chaoyous.readnote.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.chaoyous.readnote.entity.NoteCollectionEntity;
 import com.chaoyous.readnote.entity.UserEntity;
 import com.chaoyous.readnote.exception.LoginException;
 import com.chaoyous.readnote.exception.MySqlException;
 import com.chaoyous.readnote.exception.RedisException;
 import com.chaoyous.readnote.exception.RegisterException;
+import com.chaoyous.readnote.mapper.NoteCollectionMapper;
+import com.chaoyous.readnote.mapper.NoteMapper;
 import com.chaoyous.readnote.mapper.UserMapper;
 import com.chaoyous.readnote.model.UserValidateModel;
 import com.chaoyous.readnote.service.UserService;
@@ -30,6 +33,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
 
     @Autowired
     UserMapper userMapper;
+    @Autowired
+    NoteCollectionMapper notecollectionMapper;
+    @Autowired
+    NoteMapper noteMapper;
 
     @Override
     public LoginView login(UserValidateModel model){
@@ -80,6 +87,33 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
             user.setId(userId);
             user.setNickname(newName);
             userMapper.updateById(user);
+        }catch (Exception e){
+            throw new MySqlException();
+        }
+    }
+
+    @Override
+    public void doCollection(String userId, String noteId) {
+        try{
+            QueryWrapper<NoteCollectionEntity> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("user_id",userId).eq("note_id",noteId);
+            NoteCollectionEntity nce = notecollectionMapper.selectOne(queryWrapper);
+            if (nce == null) {
+                NoteCollectionEntity model = new NoteCollectionEntity();
+                model.setFlag(0);
+                model.setNoteId(noteId);
+                model.setUserId(userId);
+                notecollectionMapper.insert(model);
+                noteMapper.addCollectionNum(noteId,1);
+            }else if(nce.getFlag()==0){
+                nce.setFlag(1);
+                notecollectionMapper.updateById(nce);
+                noteMapper.addCollectionNum(noteId,-1);
+            }else{
+                nce.setFlag(0);
+                notecollectionMapper.updateById(nce);
+                noteMapper.addCollectionNum(noteId,1);
+            }
         }catch (Exception e){
             throw new MySqlException();
         }

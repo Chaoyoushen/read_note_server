@@ -30,7 +30,7 @@ public class NoteEntity implements Serializable {
     String page;
     String bookName;
     String createDate;
-    Integer sharedNum;
+    Integer collectionNum;
     Integer likeNum;
     Integer discussNum;
     Integer readNum;

@@ -57,22 +57,26 @@ public class UserController {
 
     @RequestMapping("/collectionOverview")
     public ResultEntity getCollectionOverview(@Security String userId){
-        return ResultBuilder.success("ok",noteService.getExploreView(3,0,userId));
-    }
-
-    @RequestMapping("/collectionDetail")
-    public ResultEntity getCollectionDetail(@Security String userId){
-        return ResultBuilder.success("ok",noteService.getExploreView(3,0,userId));
+        return ResultBuilder.success("ok",noteService.getCollection(userId));
     }
 
     @RequestMapping("/noteOverview")
     public ResultEntity getNoteOverview(@Security String userId){
+        return ResultBuilder.success("ok",noteService.getNote(userId));
+    }
+
+    @RequestMapping("/collection")
+    public ResultEntity doCollection(@Security String userId,String noteId){
+        userService.doCollection(userId,noteId);
         return ResultBuilder.success("ok",null);
     }
 
-    @RequestMapping("/noteDetail")
-    public ResultEntity getNoteDetail(@Security String userId){
-        return ResultBuilder.success("ok",null);
+    @RequestMapping("/collection/list")
+    public ResultEntity getCollectionList(@Security String userId){
+        return ResultBuilder.success("ok",noteService.getCollectionList(userId));
     }
+
+
+
 
 }

@@ -73,4 +73,9 @@ public class NoteController {
             return ResultBuilder.fail("fail",null);
         }
     }
+
+    @RequestMapping("/list")
+    public ResultEntity getNoteListByBookId(@Security String userId,String bookId){
+        return ResultBuilder.success("ok",noteService.getNoteListByBookId(bookId));
+    }
 }

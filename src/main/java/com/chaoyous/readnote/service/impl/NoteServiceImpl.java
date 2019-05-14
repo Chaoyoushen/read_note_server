@@ -1,22 +1,16 @@
 package com.chaoyous.readnote.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.chaoyous.readnote.entity.DiscussEntity;
-import com.chaoyous.readnote.entity.LikeDiscussEntity;
-import com.chaoyous.readnote.entity.LikeNoteEntity;
-import com.chaoyous.readnote.entity.NoteEntity;
+import com.chaoyous.readnote.entity.*;
 import com.chaoyous.readnote.exception.InsertNoteException;
 import com.chaoyous.readnote.exception.MySqlException;
 import com.chaoyous.readnote.mapper.*;
 import com.chaoyous.readnote.model.DiscussModel;
 import com.chaoyous.readnote.service.NoteService;
-import com.chaoyous.readnote.view.DiscussView;
-import com.chaoyous.readnote.view.ExploreListView;
-import com.chaoyous.readnote.view.ExploreView;
-import com.chaoyous.readnote.view.NoteDetailView;
+import com.chaoyous.readnote.view.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -41,6 +35,8 @@ public class NoteServiceImpl implements NoteService {
     LikeNoteMapper likeNoteMapper;
     @Autowired
     LikeDiscussMapper likeDiscussMapper;
+    @Autowired
+    NoteCollectionMapper noteCollectionMapper;
 
 
     @Override
@@ -48,7 +44,7 @@ public class NoteServiceImpl implements NoteService {
         try {
             note.setDiscussNum(0);
             note.setReadNum(0);
-            note.setSharedNum(0);
+            note.setCollectionNum(0);
             note.setLikeNum(0);
             note.setDelFlag(0);
             noteMapper.insert(note);
@@ -71,10 +67,8 @@ public class NoteServiceImpl implements NoteService {
             ExploreView exploreView = noteMapper.getNoteDetail(noteId);
             NoteDetailView view = getDiscusses(noteId);
             view.setExploreModel(exploreView);
-            System.out.println(view.getExploreModel().getBookName());
             return view;
         }catch (Exception e){
-            System.out.println(e.getStackTrace());
             throw new MySqlException();
         }
     }
@@ -84,6 +78,7 @@ public class NoteServiceImpl implements NoteService {
     @Override
     public boolean makeDiscuss(String userId, DiscussModel model){
         try {
+
             DiscussEntity entity = new DiscussEntity();
             entity.setUserId(userId);
             entity.setNoteId(model.getNoteId());
@@ -91,6 +86,7 @@ public class NoteServiceImpl implements NoteService {
             entity.setCreateDate(model.getCreateDate());
             entity.setLikeNum(0);
             discussMapper.insert(entity);
+            noteMapper.addDiscussNum(model.getNoteId(),1);
         }catch (Exception e){
             throw new MySqlException();
         }
@@ -111,7 +107,7 @@ public class NoteServiceImpl implements NoteService {
     public boolean mannerNote(String userId, String noteId) {
         try {
             QueryWrapper<LikeNoteEntity> wrapper = new QueryWrapper<>();
-            wrapper.eq("user_id",userId).eq("noteId",noteId);
+            wrapper.eq("user_id",userId).eq("note_id",noteId);
             LikeNoteEntity model = likeNoteMapper.selectOne(wrapper);
             if(model == null){
                 model = new LikeNoteEntity();
@@ -142,7 +138,7 @@ public class NoteServiceImpl implements NoteService {
     public boolean mannerDiscuss(String userId, String discussId) {
         try {
             QueryWrapper<LikeDiscussEntity> wrapper = new QueryWrapper<>();
-            wrapper.eq("user_id",userId).eq("noteId",discussId);
+            wrapper.eq("user_id",userId).eq("discuss_id",discussId);
             LikeDiscussEntity model = likeDiscussMapper.selectOne(wrapper);
             if(model == null){
                 model = new LikeDiscussEntity();
@@ -150,13 +146,16 @@ public class NoteServiceImpl implements NoteService {
                 model.setDiscussId(discussId);
                 model.setLiked(1);
                 likeDiscussMapper.insert(model);
+                discussMapper.mannerDiscussLikeNum(discussId,1);
             }else {
                 if(model.getLiked() == 1){
                     model.setLiked(0);
                     likeDiscussMapper.updateById(model);
+                    discussMapper.mannerDiscussLikeNum(discussId,-1);
                 }else{
                     model.setLiked(1);
                     likeDiscussMapper.updateById(model);
+                    discussMapper.mannerDiscussLikeNum(discussId,1);
                 }
             }
             return true;
@@ -173,6 +172,55 @@ public class NoteServiceImpl implements NoteService {
             model.setDelFlag(1);
             noteMapper.updateById(model);
             return true;
+        }catch (Exception e){
+            throw new MySqlException();
+        }
+    }
+
+    @Override
+    public CollectionListView getCollection(String userId) {
+        try {
+            CollectionListView view = new CollectionListView();
+            view.setList(noteCollectionMapper.getConllectionList(userId));
+            return view;
+        }catch (Exception e){
+            throw new MySqlException();
+        }
+    }
+
+    @Override
+    public NoteListView getNote(String userId) {
+        try {
+            NoteListView view = new NoteListView();
+            view.setList(noteMapper.getNote(userId));
+            return view;
+        }catch (Exception e){
+            throw new MySqlException();
+        }
+    }
+
+    @Override
+    public NoteListView getCollectionList(String userId) {
+        try{
+            NoteListView view = new NoteListView();
+            view.setList(noteMapper.getCollectionNote(userId));
+            return view;
+        }catch (Exception e){
+            throw new MySqlException();
+        }
+    }
+
+    @Override
+    public NoteListView getNoteListByBookId(String bookId) {
+        try{
+            QueryWrapper<NoteEntity> wrapper = new QueryWrapper<>();
+            wrapper.eq("book_id",bookId).eq("del_flag",0);
+            List<NoteEntity> tmp = noteMapper.selectList(wrapper);
+            List<NoteView> list = new ArrayList<>();
+            tmp.forEach((entity) -> list.add(new NoteView(entity.getNoteId(),entity.getDigest(),entity.getNote(),entity.getBookName())));
+            NoteListView view = new NoteListView();
+            view.setList(list);
+            return view;
         }catch (Exception e){
             throw new MySqlException();
         }

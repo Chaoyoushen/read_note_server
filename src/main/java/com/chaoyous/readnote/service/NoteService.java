@@ -2,9 +2,7 @@ package com.chaoyous.readnote.service;
 
 import com.chaoyous.readnote.entity.NoteEntity;
 import com.chaoyous.readnote.model.DiscussModel;
-import com.chaoyous.readnote.view.ExploreListView;
-import com.chaoyous.readnote.view.ExploreView;
-import com.chaoyous.readnote.view.NoteDetailView;
+import com.chaoyous.readnote.view.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,4 +29,12 @@ public interface NoteService {
     boolean mannerDiscuss(String userId,String discussId);
 
     boolean deleteNote(String noteId);
+
+    CollectionListView getCollection(String userId);
+
+    NoteListView getNote(String userId);
+
+    NoteListView getCollectionList(String userId);
+
+    NoteListView getNoteListByBookId(String bookId);
 }

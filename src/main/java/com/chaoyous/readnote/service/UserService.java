@@ -19,6 +19,10 @@ public interface UserService extends IService<UserEntity> {
     LoginView register(UserValidateModel model);
 
     void logout(String userId);
+
     void changeName(String userId,String newName);
+
+    void doCollection(String userId,String noteId);
+
 
 }

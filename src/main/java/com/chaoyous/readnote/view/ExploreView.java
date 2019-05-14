@@ -23,8 +23,9 @@ public class ExploreView {
     private Integer readNum;
     private Integer likeNum;
     private Integer discussNum;
-    private Integer sharedNum;
+    private Integer collectionNum;
     private String note;
     private String page;
     private Integer likeFlag;
+    private Integer collectionFlag;
 }
