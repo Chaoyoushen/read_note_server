@@ -33,7 +33,7 @@ public class BaiduAIController {
     private BaiduAIService baiduAIService;
 
     @RequestMapping("/token")
-    public ResultEntity getToken(@Security String userId){
+    public ResultEntity getToken(){
         return ResultBuilder.success("获取成功",baiduAIService.getToken());
     }
 }

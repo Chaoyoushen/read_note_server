@@ -61,10 +61,10 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
-    public NoteDetailView getNoteDetail(String noteId) {
+    public NoteDetailView getNoteDetail(String noteId,String userId) {
         try {
             noteMapper.addReadNum(noteId);
-            ExploreView exploreView = noteMapper.getNoteDetail(noteId);
+            ExploreView exploreView = noteMapper.getNoteDetail(noteId,userId);
             NoteDetailView view = getDiscusses(noteId);
             view.setExploreModel(exploreView);
             return view;

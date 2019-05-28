@@ -32,7 +32,7 @@ public class NoteController {
     @RequestMapping(value = "/query/detail")
     public ResultEntity queryNoteDetail(@Security String userId,String noteId,Integer type){
         if(type.equals(0)){
-            return ResultBuilder.success("ok",noteService.getNoteDetail(noteId));
+            return ResultBuilder.success("ok",noteService.getNoteDetail(noteId,userId));
         }else{
             return ResultBuilder.success("ok",noteService.getDiscusses(noteId));
         }

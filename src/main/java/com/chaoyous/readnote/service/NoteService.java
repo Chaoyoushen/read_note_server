@@ -18,7 +18,7 @@ public interface NoteService {
 
     ExploreListView getExploreView(Integer num, Integer current,String userId);
 
-    NoteDetailView getNoteDetail(String noteId);
+    NoteDetailView getNoteDetail(String noteId,String userId);
 
     boolean makeDiscuss(String userId, DiscussModel model);
 
